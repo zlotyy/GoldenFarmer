@@ -1,7 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -16,11 +13,25 @@ namespace Zlotyy.GoldenFarmer.Api
             CreateHostBuilder(args).Build().Run();
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
+        public static IHostBuilder CreateHostBuilder(string[] args)
+        {
+            var _config = new ConfigurationBuilder().SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+                           .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true).Build();
+
+            var builder = Host.CreateDefaultBuilder(args)
+            .ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder.UseStartup<Startup>();
+            });
+            //.ConfigureLogging(logging =>
+            //{
+            //    logging.ClearProviders();
+            //    logging.SetMinimumLevel(LogLevel.Trace);
+            //})
+            //.UseContentRoot(AppDomain.CurrentDomain.BaseDirectory)
+            //.UseNLog();
+
+            return builder;
+        }
     }
 }

@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using VueCliMiddleware;
+using Zlotyy.GoldenFarmer.Web.Services;
 
 namespace Zlotyy.GoldenFarmer.Web
 {
@@ -25,11 +26,16 @@ namespace Zlotyy.GoldenFarmer.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var appSettingsSection = Configuration.GetSection("AppSettings");
+            services.Configure<AppSettings>(appSettingsSection);
+
             services.AddControllers();
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp";
             });
+
+            services.AddTransient<IRestService, RestService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

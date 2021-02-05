@@ -2,6 +2,7 @@
 import Home from "@/components/Home.vue";
 import Counter from "@/components/Counter.vue";
 import FetchData from "@/components/FetchData.vue";
+import Products from "@/components/Products.vue";
 
 const routes = [
     {
@@ -18,6 +19,11 @@ const routes = [
         path: "/FetchData",
         name: "FetchData",
         component: FetchData,
+    },
+    {
+        path: "/Products",
+        name: "Products",
+        component: Products,
     }
 ];
 
