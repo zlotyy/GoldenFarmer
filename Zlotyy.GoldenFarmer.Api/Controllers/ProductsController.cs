@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
+using System.Linq;
+using Zlotyy.GoldenFarmer.Database;
 
 namespace Zlotyy.GoldenFarmer.Api.Controllers
 {
@@ -9,25 +11,23 @@ namespace Zlotyy.GoldenFarmer.Api.Controllers
     public class ProductsController : BaseSecureController
     {
         private readonly ILogger<ProductsController> _logger;
+        private readonly IDbContextFactory _dbFactory;
 
-        public ProductsController(ILogger<ProductsController> logger)
+        public ProductsController(ILogger<ProductsController> logger, IDbContextFactory dbFactory)
         {
             _logger = logger;
+            _dbFactory = dbFactory;
         }
 
         [HttpGet]
-        public List<object> GetProducts()
+        public List<Products> GetProducts()
         {
             _logger.LogDebug($"Request {nameof(GetProducts)}");
-            return new List<object>
+            using (var db = _dbFactory.Create())
             {
-                new
-                {
-                    ProductId = 1,
-                    Name = "Ziemniak",
-                    IsAvailable = 1
-                }
-            };
+                var result = db.Products.ToList();
+                return result;
+            }
         }
     }
 }

@@ -1,3 +1,4 @@
+using LinqToDB.Data;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -6,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Zlotyy.GoldenFarmer.Api.Utils;
+using Zlotyy.GoldenFarmer.Database;
 
 namespace Zlotyy.GoldenFarmer.Api
 {
@@ -14,6 +16,7 @@ namespace Zlotyy.GoldenFarmer.Api
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            DataConnection.DefaultSettings = new LinqToDBSettings(configuration.GetConnectionString("GoldenFarmerDB"));
         }
 
         public IConfiguration Configuration { get; }
@@ -23,6 +26,8 @@ namespace Zlotyy.GoldenFarmer.Api
         {
             var appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);
+
+            services.AddSingleton<IDbContextFactory, DbContextFactory>();
 
             services.AddAuthentication("BasicAuthentication")
                 .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);

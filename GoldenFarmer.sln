@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zlotyy.GoldenFarmer.Web", "Zlotyy.GoldenFarmer.Web\Zlotyy.GoldenFarmer.Web.csproj", "{7FE207CB-384D-4F0D-86C8-274A6E15E3CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zlotyy.GoldenFarmer.Web", "Zlotyy.GoldenFarmer.Web\Zlotyy.GoldenFarmer.Web.csproj", "{7FE207CB-384D-4F0D-86C8-274A6E15E3CC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zlotyy.GoldenFarmer.Api", "Zlotyy.GoldenFarmer.Api\Zlotyy.GoldenFarmer.Api.csproj", "{C9AFCB57-B0D0-4A3B-A0BE-407F20692769}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zlotyy.GoldenFarmer.Database", "Zlotyy.GoldenFarmer.Database\Zlotyy.GoldenFarmer.Database.csproj", "{BF4774EF-32CB-4068-B1E2-A525F22CB56C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{C9AFCB57-B0D0-4A3B-A0BE-407F20692769}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C9AFCB57-B0D0-4A3B-A0BE-407F20692769}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C9AFCB57-B0D0-4A3B-A0BE-407F20692769}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF4774EF-32CB-4068-B1E2-A525F22CB56C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF4774EF-32CB-4068-B1E2-A525F22CB56C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF4774EF-32CB-4068-B1E2-A525F22CB56C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF4774EF-32CB-4068-B1E2-A525F22CB56C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
