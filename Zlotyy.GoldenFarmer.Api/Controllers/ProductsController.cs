@@ -2,32 +2,27 @@
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
-using Zlotyy.GoldenFarmer.Database;
+using Zlotyy.GoldenFarmer.Api.Queries;
+using Zlotyy.GoldenFarmer.TransportModels.Products;
 
 namespace Zlotyy.GoldenFarmer.Api.Controllers
 {
-    [ApiController]
-    [Route("api/v1/[controller]")]
     public class ProductsController : BaseSecureController
     {
         private readonly ILogger<ProductsController> _logger;
-        private readonly IDbContextFactory _dbFactory;
+        private readonly IProductQueries _queries;
 
-        public ProductsController(ILogger<ProductsController> logger, IDbContextFactory dbFactory)
+        public ProductsController(ILogger<ProductsController> logger, IProductQueries queries)
         {
             _logger = logger;
-            _dbFactory = dbFactory;
+            _queries = queries;
         }
 
         [HttpGet]
-        public List<Products> GetProducts()
+        public IEnumerable<ProductModel> GetProducts()
         {
             _logger.LogDebug($"Request {nameof(GetProducts)}");
-            using (var db = _dbFactory.Create())
-            {
-                var result = db.Products.ToList();
-                return result;
-            }
+            return _queries.GetProducts().Select(s => new ProductModel(s));
         }
     }
 }

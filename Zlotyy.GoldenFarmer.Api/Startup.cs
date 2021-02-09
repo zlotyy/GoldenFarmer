@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Zlotyy.GoldenFarmer.Api.Queries;
 using Zlotyy.GoldenFarmer.Api.Utils;
 using Zlotyy.GoldenFarmer.Database;
 
@@ -57,6 +58,9 @@ namespace Zlotyy.GoldenFarmer.Api
                     }
                 });
             });
+
+            services.AddTransient<IProductQueries, ProductQueries>();
+            services.AddTransient<IUserQueries, UserQueries>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

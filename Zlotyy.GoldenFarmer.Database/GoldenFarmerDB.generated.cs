@@ -23,11 +23,11 @@ namespace Zlotyy.GoldenFarmer.Database
 	/// </summary>
 	public partial class GoldenFarmerDB : LinqToDB.Data.DataConnection
 	{
-		public ITable<Customers>       Customers       { get { return this.GetTable<Customers>(); } }
 		public ITable<Orders>          Orders          { get { return this.GetTable<Orders>(); } }
 		public ITable<OrdersLProducts> OrdersLProducts { get { return this.GetTable<OrdersLProducts>(); } }
 		public ITable<OrderStatus>     OrderStatus     { get { return this.GetTable<OrderStatus>(); } }
 		public ITable<Products>        Products        { get { return this.GetTable<Products>(); } }
+		public ITable<Users>           Users           { get { return this.GetTable<Users>(); } }
 
 		public GoldenFarmerDB()
 		{
@@ -46,25 +46,6 @@ namespace Zlotyy.GoldenFarmer.Database
 		partial void InitMappingSchema();
 	}
 
-	[Table(Schema="dbo", Name="Customers")]
-	public partial class Customers
-	{
-		[PrimaryKey, NotNull] public Guid   CustomerId { get; set; } // uniqueidentifier
-		[Column,     NotNull] public string Login      { get; set; } // nvarchar(50)
-		[Column,     NotNull] public string FullName   { get; set; } // nvarchar(100)
-		[Column,     NotNull] public string Password   { get; set; } // nvarchar(50)
-
-		#region Associations
-
-		/// <summary>
-		/// FK_Orders_Customers_BackReference
-		/// </summary>
-		[Association(ThisKey="CustomerId", OtherKey="CustomerId", CanBeNull=true, Relationship=Relationship.OneToMany, IsBackReference=true)]
-		public IEnumerable<Orders> Orders { get; set; }
-
-		#endregion
-	}
-
 	[Table(Schema="dbo", Name="Orders")]
 	public partial class Orders
 	{
@@ -80,8 +61,8 @@ namespace Zlotyy.GoldenFarmer.Database
 		/// <summary>
 		/// FK_Orders_Customers
 		/// </summary>
-		[Association(ThisKey="CustomerId", OtherKey="CustomerId", CanBeNull=false, Relationship=Relationship.ManyToOne, KeyName="FK_Orders_Customers", BackReferenceName="Orders")]
-		public Customers Customer { get; set; }
+		[Association(ThisKey="CustomerId", OtherKey="UserId", CanBeNull=false, Relationship=Relationship.ManyToOne, KeyName="FK_Orders_Customers", BackReferenceName="OrdersCustomers")]
+		public Users Customer { get; set; }
 
 		/// <summary>
 		/// FK_Orders_l_Products_Orders_BackReference
@@ -135,7 +116,7 @@ namespace Zlotyy.GoldenFarmer.Database
 		[Column,     NotNull    ] public string    Name          { get; set; } // nvarchar(100)
 		[Column,     NotNull    ] public bool      IsAvailable   { get; set; } // bit
 		[Column,        Nullable] public string    Units         { get; set; } // nvarchar(100)
-		[Column,     NotNull    ] public bool      SonnExpire    { get; set; } // bit
+		[Column,     NotNull    ] public bool      SoonExpire    { get; set; } // bit
 		[Column,     NotNull    ] public bool      SoonAvailable { get; set; } // bit
 		[Column,        Nullable] public DateTime? AvailableDate { get; set; } // date
 
@@ -150,14 +131,28 @@ namespace Zlotyy.GoldenFarmer.Database
 		#endregion
 	}
 
+	[Table(Schema="dbo", Name="Users")]
+	public partial class Users
+	{
+		[PrimaryKey, NotNull] public Guid   UserId   { get; set; } // uniqueidentifier
+		[Column,     NotNull] public string Login    { get; set; } // nvarchar(50)
+		[Column,     NotNull] public string FullName { get; set; } // nvarchar(100)
+		[Column,     NotNull] public string Password { get; set; } // nvarchar(50)
+		[Column,     NotNull] public bool   IsAdmin  { get; set; } // bit
+
+		#region Associations
+
+		/// <summary>
+		/// FK_Orders_Customers_BackReference
+		/// </summary>
+		[Association(ThisKey="UserId", OtherKey="CustomerId", CanBeNull=true, Relationship=Relationship.OneToMany, IsBackReference=true)]
+		public IEnumerable<Orders> OrdersCustomers { get; set; }
+
+		#endregion
+	}
+
 	public static partial class TableExtensions
 	{
-		public static Customers Find(this ITable<Customers> table, Guid CustomerId)
-		{
-			return table.FirstOrDefault(t =>
-				t.CustomerId == CustomerId);
-		}
-
 		public static Orders Find(this ITable<Orders> table, Guid OrderId)
 		{
 			return table.FirstOrDefault(t =>
@@ -181,6 +176,12 @@ namespace Zlotyy.GoldenFarmer.Database
 		{
 			return table.FirstOrDefault(t =>
 				t.ProductId == ProductId);
+		}
+
+		public static Users Find(this ITable<Users> table, Guid UserId)
+		{
+			return table.FirstOrDefault(t =>
+				t.UserId == UserId);
 		}
 	}
 }

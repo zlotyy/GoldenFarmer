@@ -14,6 +14,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Zlotyy.GoldenFarmer.Database\Zlotyy.GoldenFarmer.Database.csproj" />
+    <ProjectReference Include="..\Zlotyy.GoldenFarmer.TransportModels\Zlotyy.GoldenFarmer.TransportModels.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Commands\" />
   </ItemGroup>
 
 </Project>

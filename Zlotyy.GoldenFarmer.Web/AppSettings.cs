@@ -3,6 +3,7 @@
     public class AppSettings
     {
         public ServiceSettings WebApi { get; set; }
+        public string Secret { get; set; }
     }
 
     public class ServiceSettings : UserCredentials
